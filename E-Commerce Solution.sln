@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Abstractions", "Co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrastructure", "infrastructure", "{935B8338-B324-4F7E-9442-3249061CF00F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "presentence", "infrastructure\presentence\presentence.csproj", "{F5940DF1-3E1A-4496-9FA9-86AF34CF6206}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "infrastructure\presentence\Persistence.csproj", "{F5940DF1-3E1A-4496-9FA9-86AF34CF6206}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "infrastructure\Presentation\Presentation.csproj", "{32B06144-31C2-492F-B4DD-741CD0D52F17}"
 EndProject

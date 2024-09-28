@@ -10,13 +10,13 @@ namespace Domain.Entities
     {
         public string Name { get; set; }    
         public string Description { get; set; }    
-        public string Picture { get; set; }    
+        public string PictureUrl { get; set; }    
         public Decimal Price { get; set; }    
 
-        public int BrandID { get; set; }
+        public int BrandId { get; set; }
         public ProductBrand productBrand { get; set; }
 
-        public int ProductTypeID { get; set; }
+        public int TypeId { get; set; }
         public ProductType ProductType { get; set; }
     }
 }
