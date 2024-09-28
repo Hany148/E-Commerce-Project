@@ -3,6 +3,7 @@ global using Domain.Contracts;
 global using Microsoft.EntityFrameworkCore;
 global using Persistence.Seeding.Class_Seeding;
 global using presentence.Data.DbContexts;
+using Domain.Contracts.ISeeding;
 
 namespace E_Commerce_API
 {

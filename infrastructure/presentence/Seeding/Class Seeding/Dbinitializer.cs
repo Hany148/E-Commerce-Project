@@ -1,4 +1,5 @@
 ﻿global using Domain.Contracts;
+using Domain.Contracts.ISeeding;
 using presentence.Data.DbContexts;
 using System;
 using System.Collections.Generic;
