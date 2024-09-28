@@ -29,7 +29,11 @@ namespace Persistence.Repositories
                 return (IGenericRepository<Tenity, Tkey>) _repositry[TypeName];
             }
 
-            return new GenericRepository<Tenity, Tkey>(_storeContex);
+            var repo = new GenericRepository<Tenity, Tkey>(_storeContex);
+
+            _repositry[TypeName] = repo;
+
+            return repo;
         }
 
         public async Task<int> ToSaveChanges()
