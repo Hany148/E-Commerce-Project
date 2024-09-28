@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace E_Commerce_API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -19,6 +19,12 @@ namespace E_Commerce_API.Controllers
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
+       // [HttpGet(template:"{id}")]
+
+       // [HttpGet("{id}")]
+
+       // [HttpGet]
+       // [Route("{id}")]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
