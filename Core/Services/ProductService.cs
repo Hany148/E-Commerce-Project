@@ -37,11 +37,11 @@ namespace Services.Abstractions
             return productBrandsDto;
         }
 
-        public async Task<IEnumerable<ProductDTO>> GetProductsDTOAsync()
+        public async Task<IEnumerable<ProductDTO>> GetProductsDTOAsync(string? sort , int? brandid , int? typeid)
         {
             // 1. Retrive all ProductBrand by using IUnitOfWork interface
             var products = await _unitOfWork.GetRepository<Product, int>()
-                .GetAllAsync(new ProductWithBrandAndTypeSpecification());
+                .GetAllAsync(new ProductWithBrandAndTypeSpecification(sort , brandid , typeid));
 
             // 2. Mapping to ProductBrandDTO By using package of Automapper
             var productsDto = _mapper.Map<IEnumerable<ProductDTO>>(products);

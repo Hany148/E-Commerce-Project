@@ -33,6 +33,17 @@ namespace Persistence.Repositories
                 query
                 ,(currentQuery , incouldeExpression)=>currentQuery.Include(incouldeExpression));
 
+
+            if (specification.OrderBy is not null)
+            {
+                query = query.OrderBy(specification.OrderBy);
+            }
+
+            else if (specification.OrderbyDec is not null)
+            {
+                query = query.OrderBy(specification.OrderbyDec);
+            }
+
             return query;
 
         }
