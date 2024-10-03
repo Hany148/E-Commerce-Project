@@ -4,6 +4,11 @@ global using Microsoft.EntityFrameworkCore;
 global using Persistence.Seeding.Class_Seeding;
 global using presentence.Data.DbContexts;
 using Domain.Contracts.ISeeding;
+using Presentation;
+using Services.Abstractions;
+using  Services;
+using Domain.Contracts.IUnitOfWork;
+using Persistence.Repositories;
 
 namespace E_Commerce_API
 {
@@ -15,7 +20,8 @@ namespace E_Commerce_API
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddApplicationPart(typeof(Presentation.PresentationRef).Assembly);
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -25,8 +31,19 @@ namespace E_Commerce_API
             options.UseSqlServer(builder.Configuration.GetConnectionString("StoreContexConnection"))
             );
 
-            // add services
+            // add services IDbinitializer
             builder.Services.AddScoped<IDbinitializer , Dbinitializer>();
+
+            // add services IUnitOfWork
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            // add services IServiceManger
+            builder.Services.AddScoped<IServiceManger, ServiceManger>();
+
+            // add services AddAutoMapper
+            builder.Services.AddAutoMapper(typeof(Services.ServicesRef).Assembly);
+
+
 
             var app = builder.Build();
 

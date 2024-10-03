@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    internal class ServiceManger : IServiceManger
+    public class ServiceManger : IServiceManger
     {
 
         private readonly Lazy<IProductService> _productService;
