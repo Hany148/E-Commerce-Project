@@ -1,4 +1,5 @@
 ﻿global using Domain.Entities;
+using Domain.Contracts___Interface__;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,10 @@ namespace Domain.Contracts.IRepository
         public Task<Tentity?> FindByIdAysnc(Tkey id);
 
         public Task<IEnumerable<Tentity>> GetAllAsync(bool trackChenges);
+
+        public Task<Tentity?> FindByIdAysnc(Specification<Tentity> specification);
+
+        public Task<IEnumerable<Tentity>> GetAllAsync(Specification<Tentity> specification);
 
         public Task AddAsync(Tentity entity);
 

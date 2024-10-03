@@ -1,4 +1,5 @@
 ﻿using Domain.Contracts.IRepository;
+using Domain.Contracts___Interface__;
 using presentence.Data.DbContexts;
 using System;
 using System.Collections.Generic;
@@ -52,5 +53,17 @@ namespace Persistence.Repositories
         {
             _dbSet.Update(entity);
         }
+
+        public async Task<Tentity?> FindByIdAysnc(Specification<Tentity> specification)
+        {
+            return await SpecificationsEvaluator.GetQuery(_storeContex.Set<Tentity>(), specification).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Tentity>> GetAllAsync(Specification<Tentity> specification)
+        {
+           return  await SpecificationsEvaluator.GetQuery(_storeContex.Set<Tentity>(), specification).ToListAsync();
+
+        }
+
     }
 }

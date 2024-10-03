@@ -9,6 +9,8 @@ using Services.Abstractions;
 using  Services;
 using Domain.Contracts.IUnitOfWork;
 using Persistence.Repositories;
+using Microsoft.Extensions.FileProviders;
+using System;
 
 namespace E_Commerce_API
 {
@@ -56,12 +58,23 @@ namespace E_Commerce_API
                 app.UseSwaggerUI();
             }
 
+           /* 
+              app.UseStaticFiles(new StaticFileOptions(
+                FileProvider = new PhysicalFileProvider("put the Path of file")
+
+                ));
+           */
+
+            app.UseStaticFiles();
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
 
             app.MapControllers();
+
+
 
             app.Run();
         }

@@ -1,6 +1,7 @@
 ﻿global using Domain.Contracts.IUnitOfWork;
 global using Shared.DTO;
 using AutoMapper;
+using Domain.Contracts___Interface__;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,8 @@ namespace Services.Abstractions
         public async Task<IEnumerable<ProductDTO>> GetProductsDTOAsync()
         {
             // 1. Retrive all ProductBrand by using IUnitOfWork interface
-            var products = await _unitOfWork.GetRepository<Product, int>().GetAllAsync(true);
+            var products = await _unitOfWork.GetRepository<Product, int>()
+                .GetAllAsync(new ProductWithBrandAndTypeSpecification());
 
             // 2. Mapping to ProductBrandDTO By using package of Automapper
             var productsDto = _mapper.Map<IEnumerable<ProductDTO>>(products);
@@ -52,7 +54,8 @@ namespace Services.Abstractions
         public async Task<ProductDTO> GetProductsDTOByIdAsync(int id)
         {
             // 1. Retrive all ProductBrand by using IUnitOfWork interface
-            var product = await _unitOfWork.GetRepository<Product, int>().FindByIdAysnc(id);
+            var product = await _unitOfWork.GetRepository<Product, int>()
+                .FindByIdAysnc(new ProductWithBrandAndTypeSpecification(id));
 
             // 2. Mapping to ProductBrandDTO By using package of Automapper
             var productDto = _mapper.Map<ProductDTO>(product);
