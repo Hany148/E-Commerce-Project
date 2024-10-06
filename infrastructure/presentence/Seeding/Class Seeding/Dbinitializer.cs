@@ -8,8 +8,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Threading.Tasks;
-
+using Domain.Contracts.IUnitOfWork;
 namespace Persistence.Seeding.Class_Seeding
 {
     public class Dbinitializer : IDbinitializer

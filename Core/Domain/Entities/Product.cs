@@ -11,7 +11,7 @@ namespace Domain.Entities
         public string Name { get; set; }    
         public string Description { get; set; }    
         public string PictureUrl { get; set; }    
-        public Decimal Price { get; set; }    
+        public decimal Price { get; set; }    
 
         public int BrandId { get; set; }
         public ProductBrand productBrand { get; set; }
