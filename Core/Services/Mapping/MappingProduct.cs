@@ -14,7 +14,7 @@ namespace Services.Mapping
         {
             CreateMap<Product , ProductDTO >()
                 .ForMember(pd=>pd.BrandName , option=>option.MapFrom(p=>p.productBrand.Name))
-                .ForMember(pd=>pd.BrandName , option=>option.MapFrom(p=>p.ProductType.Name))
+                .ForMember(pd=>pd.TypeName , option=>option.MapFrom(p=>p.ProductType.Name))
                 .ForMember(pd=>pd.PictureUrl , option=>option.MapFrom<PictureURLResolver>())
                 .ReverseMap();
 

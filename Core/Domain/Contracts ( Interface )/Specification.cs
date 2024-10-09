@@ -13,14 +13,19 @@ namespace Domain.Contracts___Interface__
         public Expression<Func<T, object>>? OrderBy { get; private set; }
         public Expression<Func<T, object>>? OrderbyDec { get; private set; }
         public List<Expression<Func<T, object>>> IncludedExpression { get; } = new();
+        public int Skip { get; private set; }
+        public int Take { get; private set; }
+
+        public bool IsPaginate { get; private set; }
 
 
 
-        protected Specification(Expression<Func<T, bool>>? criteria) 
-            
+
+        protected Specification(Expression<Func<T, bool>>? criteria)
+
         {
             Criteria = criteria;
-            
+
         }
 
         protected void AddInclude(Expression<Func<T, object>> Include)
@@ -36,6 +41,13 @@ namespace Domain.Contracts___Interface__
         protected void SetOrderByDec(Expression<Func<T, object>> orderbydec)
         {
             OrderbyDec = orderbydec;
+        }
+
+        protected void ApplyPageinaton(int pageIndex, int pageSize)
+        {
+            IsPaginate = true;
+            Take = pageSize;
+            Skip = (pageIndex - 1) * pageSize; // page 1 => ( 1 - 1 ) * 10 = 0  , page 2 => ( 2 - 1 ) * 10 = 11 
         }
 
     }

@@ -59,6 +59,7 @@ namespace Domain.Contracts___Interface__
                 }
             }
 
+            ApplyPageinaton(Prams.pageIndex , Prams.pageSize);
         }
 
 
