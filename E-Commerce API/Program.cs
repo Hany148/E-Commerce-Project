@@ -6,12 +6,14 @@ global using presentence.Data.DbContexts;
 using Domain.Contracts.ISeeding;
 using Presentation;
 using Services.Abstractions;
-using  Services;
+using Services;
 using Domain.Contracts.IUnitOfWork;
 using Persistence.Repositories;
 using Microsoft.Extensions.FileProviders;
 using System;
 using E_Commerce_API.Middlewares;
+using Microsoft.AspNetCore.Mvc;
+using E_Commerce_API.Response_Factory;
 
 namespace E_Commerce_API
 {
@@ -35,7 +37,7 @@ namespace E_Commerce_API
             );
 
             // add services IDbinitializer
-            builder.Services.AddScoped<IDbinitializer , Dbinitializer>();
+            builder.Services.AddScoped<IDbinitializer, Dbinitializer>();
 
             // add services IUnitOfWork
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -46,6 +48,16 @@ namespace E_Commerce_API
             // add services AddAutoMapper
             builder.Services.AddAutoMapper(typeof(Services.ServicesRef).Assembly);
 
+            // custum configuration
+
+            builder.Services.Configure<ApiBehaviorOptions>(option =>
+
+            {
+                option.InvalidModelStateResponseFactory = ApiResponseFactory.CustomValidation;
+
+            }
+
+            );
 
 
             var app = builder.Build();
@@ -62,12 +74,12 @@ namespace E_Commerce_API
                 app.UseSwaggerUI();
             }
 
-           /* 
-              app.UseStaticFiles(new StaticFileOptions(
-                FileProvider = new PhysicalFileProvider("put the Path of file")
+            /* 
+               app.UseStaticFiles(new StaticFileOptions(
+                 FileProvider = new PhysicalFileProvider("put the Path of file")
 
-                ));
-           */
+                 ));
+            */
 
             app.UseStaticFiles();
 
@@ -90,7 +102,7 @@ namespace E_Commerce_API
 
             var Dbinitializer = scope.ServiceProvider.GetRequiredService<IDbinitializer>();
 
-           await Dbinitializer.InitializAsync();
+            await Dbinitializer.InitializAsync();
         }
     }
 }
