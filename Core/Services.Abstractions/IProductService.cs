@@ -12,7 +12,7 @@ namespace Services.Abstractions
     {
         // 1. Retrive Get all Product 
 
-        public Task<IEnumerable<ProductDTO>> GetProductsDTOAsync(ProductSpecificationParameter Prams);
+        public Task<PageinationResult<ProductDTO>> GetProductsDTOAsync(ProductSpecificationParameter Prams);
 
         // 2. Retrive Get all Product Type
         public Task<IEnumerable<ProductTypeDTO>> GetProductsTypeDTOAsync();

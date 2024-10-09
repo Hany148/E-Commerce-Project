@@ -24,7 +24,7 @@ namespace Presentation.Controller
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAllProduct([FromQuery]ProductSpecificationParameter Prams)
+        public async Task<ActionResult<PageinationResult<ProductDTO>>> GetAllProduct([FromQuery]ProductSpecificationParameter Prams)
         {
             var products = await _serviceManger.Product.GetProductsDTOAsync(Prams);
             return Ok(products);

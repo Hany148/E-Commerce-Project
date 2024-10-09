@@ -3,6 +3,7 @@ global using Shared.DTO;
 using AutoMapper;
 using Domain.Contracts___Interface__;
 using Domain.Entities;
+using Services.Specification;
 using Shared;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace Services.Abstractions
         public async Task<IEnumerable<ProductBrandDTO>> GetProductsBrandDTOAsync()
         {
             // 1. Retrive all ProductBrand by using IUnitOfWork interface
-            var productBrands = await  _unitOfWork.GetRepository<ProductBrand, int>().GetAllAsync(true);
+            var productBrands = await _unitOfWork.GetRepository<ProductBrand, int>().GetAllAsync(true);
 
             // 2. Mapping to ProductBrandDTO By using package of Automapper
             var productBrandsDto = _mapper.Map<IEnumerable<ProductBrandDTO>>(productBrands);
@@ -38,7 +39,7 @@ namespace Services.Abstractions
             return productBrandsDto;
         }
 
-        public async Task<IEnumerable<ProductDTO>> GetProductsDTOAsync(ProductSpecificationParameter Prams)
+        public async Task<PageinationResult<ProductDTO>> GetProductsDTOAsync(ProductSpecificationParameter Prams)
         {
             // 1. Retrive all ProductBrand by using IUnitOfWork interface
             var products = await _unitOfWork.GetRepository<Product, int>()
@@ -47,9 +48,21 @@ namespace Services.Abstractions
             // 2. Mapping to ProductBrandDTO By using package of Automapper
             var productsDto = _mapper.Map<IEnumerable<ProductDTO>>(products);
 
-            // 3. Return
+            // 3. Retrive Count of Product
+            var TotalCountOfProduct = await _unitOfWork.GetRepository<Product, int>()
+                .CountAsync(new ProductCountSpecification(Prams));
 
-            return productsDto;
+            // 4. Mappint to PageinationResult
+            var Rsult = new PageinationResult<ProductDTO>(
+                   Prams.pageIndex,
+                   Prams.pageSize,
+                  TotalCountOfProduct,
+                  productsDto
+
+            );
+            // 5. Return
+
+            return Rsult;
         }
 
         public async Task<ProductDTO> GetProductsDTOByIdAsync(int id)

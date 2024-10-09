@@ -17,6 +17,7 @@ namespace Domain.Contracts.IRepository
         public Task<Tentity?> FindByIdAysnc(Specification<Tentity> specification);
 
         public Task<IEnumerable<Tentity>> GetAllAsync(Specification<Tentity> specification);
+        public Task<int> CountAsync(Specification<Tentity> specification);
 
         public Task AddAsync(Tentity entity);
 
