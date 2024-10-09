@@ -1,4 +1,5 @@
-﻿using Shared.DTO;
+﻿using Shared;
+using Shared.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Services.Abstractions
     {
         // 1. Retrive Get all Product 
 
-        public Task<IEnumerable<ProductDTO>> GetProductsDTOAsync(string? sort, int? brandid, int? typeid);
+        public Task<IEnumerable<ProductDTO>> GetProductsDTOAsync(ProductSpecificationParameter Prams);
 
         // 2. Retrive Get all Product Type
         public Task<IEnumerable<ProductTypeDTO>> GetProductsTypeDTOAsync();

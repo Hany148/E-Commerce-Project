@@ -3,6 +3,7 @@ global using Shared.DTO;
 using AutoMapper;
 using Domain.Contracts___Interface__;
 using Domain.Entities;
+using Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,11 +38,11 @@ namespace Services.Abstractions
             return productBrandsDto;
         }
 
-        public async Task<IEnumerable<ProductDTO>> GetProductsDTOAsync(string? sort , int? brandid , int? typeid)
+        public async Task<IEnumerable<ProductDTO>> GetProductsDTOAsync(ProductSpecificationParameter Prams)
         {
             // 1. Retrive all ProductBrand by using IUnitOfWork interface
             var products = await _unitOfWork.GetRepository<Product, int>()
-                .GetAllAsync(new ProductWithBrandAndTypeSpecification(sort , brandid , typeid));
+                .GetAllAsync(new ProductWithBrandAndTypeSpecification(Prams));
 
             // 2. Mapping to ProductBrandDTO By using package of Automapper
             var productsDto = _mapper.Map<IEnumerable<ProductDTO>>(products);

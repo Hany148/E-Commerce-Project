@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using  Shared;
 
 namespace Domain.Contracts___Interface__
 {
@@ -19,31 +20,31 @@ namespace Domain.Contracts___Interface__
 
         // use to retrieve all product 
         public ProductWithBrandAndTypeSpecification
-            (string? sort, int? brandid, int? typeid)
+            (ProductSpecificationParameter Prams)
             : base(Product=>
-            (!brandid.HasValue || Product.BrandId== brandid.Value) &&
-            (!typeid.HasValue || Product.TypeId == typeid.Value) 
+            (!Prams.brandid.HasValue || Product.BrandId== Prams.brandid.Value) &&
+            (!Prams.typeid.HasValue || Product.TypeId == Prams.typeid.Value) 
             )
         {
             AddInclude(product => product.productBrand);
             AddInclude(product => product.ProductType);
 
-            if (!string.IsNullOrWhiteSpace(sort))
+            if (Prams.sort is not null)
             {
-                switch (sort.ToLower().Trim())
+                switch (Prams.sort)
                 {
-                    case "pricedesc":  {
+                    case ProductSorting.DescendingName:  {
                             SetOrderByDec(p => p.Price);
                             break;
                         }
 
-                    case "priceasc":
+                    case ProductSorting.AscendingName:
                         {
                             SetOrderBy(p => p.Price);
                             break;
                         }
 
-                    case "namedesc":
+                    case ProductSorting.DescendingPrice:
                         {
                             SetOrderByDec(p => p.Name);
                             break;
