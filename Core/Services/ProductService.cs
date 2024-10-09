@@ -3,6 +3,8 @@ global using Shared.DTO;
 using AutoMapper;
 using Domain.Contracts___Interface__;
 using Domain.Entities;
+using Domain.Exceptions;
+using Persistence.Exceptions;
 using Services.Specification;
 using Shared;
 using System;
@@ -71,10 +73,15 @@ namespace Services.Abstractions
             var product = await _unitOfWork.GetRepository<Product, int>()
                 .FindByIdAysnc(new ProductWithBrandAndTypeSpecification(id));
 
-            // 2. Mapping to ProductBrandDTO By using package of Automapper
+            // 2. if product is null 
+            if(product is null)
+            {
+                throw new ProductNotFoundExceptions(id);
+            }
+            // 3. Mapping to ProductBrandDTO By using package of Automapper
             var productDto = _mapper.Map<ProductDTO>(product);
 
-            // 3. Return
+            // 4. Return
 
             return productDto;
         }

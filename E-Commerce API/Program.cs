@@ -11,6 +11,7 @@ using Domain.Contracts.IUnitOfWork;
 using Persistence.Repositories;
 using Microsoft.Extensions.FileProviders;
 using System;
+using E_Commerce_API.Middlewares;
 
 namespace E_Commerce_API
 {
@@ -52,6 +53,9 @@ namespace E_Commerce_API
             await DbinitializerAsync(app);
 
             // Configure the HTTP request pipeline.
+
+            app.UseMiddleware<GlobalErrorHandlingMiddleware>();
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
