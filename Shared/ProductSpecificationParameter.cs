@@ -36,7 +36,7 @@ namespace Shared
         
         }
 
-
+        public string? Search {  get; set; }    
     }
 
     public enum ProductSorting

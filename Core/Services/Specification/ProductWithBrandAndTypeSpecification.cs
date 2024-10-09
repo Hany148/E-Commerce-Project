@@ -23,7 +23,8 @@ namespace Domain.Contracts___Interface__
             (ProductSpecificationParameter Prams)
             : base(Product=>
             (!Prams.brandid.HasValue || Product.BrandId== Prams.brandid.Value) &&
-            (!Prams.typeid.HasValue || Product.TypeId == Prams.typeid.Value) 
+            (!Prams.typeid.HasValue || Product.TypeId == Prams.typeid.Value) &&
+            (string.IsNullOrWhiteSpace(Prams.Search) || Product.Name.ToLower().Contains(Prams.Search.ToLower())) 
             )
         {
             AddInclude(product => product.productBrand);
