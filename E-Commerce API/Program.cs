@@ -6,11 +6,16 @@ global using presentence.Data.DbContexts;
 using Domain.Contracts.ISeeding;
 using Presentation;
 using Services.Abstractions;
-using  Services;
+using Services;
 using Domain.Contracts.IUnitOfWork;
 using Persistence.Repositories;
 using Microsoft.Extensions.FileProviders;
 using System;
+using E_Commerce_API.Middlewares;
+using Microsoft.AspNetCore.Mvc;
+using E_Commerce_API.Response_Factory;
+using Microsoft.Extensions.Configuration;
+using E_Commerce_API.Extension_Method;
 
 namespace E_Commerce_API
 {
@@ -20,50 +25,53 @@ namespace E_Commerce_API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
 
-            builder.Services.AddControllers().AddApplicationPart(typeof(Presentation.PresentationRef).Assembly);
+            // add PresentaionExtexntionServises
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-            // Add Connection String for StoreContex
-            builder.Services.AddDbContext<StoreContex>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("StoreContexConnection"))
-            );
-
-            // add services IDbinitializer
-            builder.Services.AddScoped<IDbinitializer , Dbinitializer>();
-
-            // add services IUnitOfWork
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-            // add services IServiceManger
-            builder.Services.AddScoped<IServiceManger, ServiceManger>();
-
-            // add services AddAutoMapper
-            builder.Services.AddAutoMapper(typeof(Services.ServicesRef).Assembly);
+            builder.Services.PresentaionExtexntionServises();
 
 
+            // add CoreProjectServises
+
+            builder.Services.CoreProjectServises();
+
+            // add InfrastructureProjectServises
+
+            builder.Services.InfrastructureProjectServises(builder.Configuration);
+
+
+
+
+
+            #region Chain more than Services
+
+            // add services IDbinitializer , we can chain to add more than Services 
+            // builder.Services.AddScoped<IDbinitializer, Dbinitializer>().AddScoped<IUnitOfWork, UnitOfWork>();
+
+            #endregion
 
             var app = builder.Build();
 
-            await DbinitializerAsync(app);
+            #region pipelines
+
+            await app.WebAppExtentionPipeLine();
 
             // Configure the HTTP request pipeline.
+
+            app.CustomUseMiddlewareExtexntionServises();
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
-           /* 
-              app.UseStaticFiles(new StaticFileOptions(
-                FileProvider = new PhysicalFileProvider("put the Path of file")
+            /* 
+               app.UseStaticFiles(new StaticFileOptions(
+                 FileProvider = new PhysicalFileProvider("put the Path of file")
 
-                ));
-           */
+                 ));
+            */
 
             app.UseStaticFiles();
 
@@ -77,16 +85,14 @@ namespace E_Commerce_API
 
 
             app.Run();
+
+            #endregion
+
+
         }
 
-        public static async Task DbinitializerAsync(WebApplication app)
-        {
-            // 1. Create Type from type IDbinitializer
-            using var scope = app.Services.CreateScope();
 
-            var Dbinitializer = scope.ServiceProvider.GetRequiredService<IDbinitializer>();
 
-           await Dbinitializer.InitializAsync();
-        }
+       
     }
 }

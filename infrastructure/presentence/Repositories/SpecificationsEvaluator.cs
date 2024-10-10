@@ -31,7 +31,7 @@ namespace Persistence.Repositories
 
             query = specification.IncludedExpression.Aggregate(
                 query
-                ,(currentQuery , incouldeExpression)=>currentQuery.Include(incouldeExpression));
+                , (currentQuery, incouldeExpression) => currentQuery.Include(incouldeExpression));
 
 
             if (specification.OrderBy is not null)
@@ -42,6 +42,11 @@ namespace Persistence.Repositories
             else if (specification.OrderbyDec is not null)
             {
                 query = query.OrderBy(specification.OrderbyDec);
+            }
+
+            if (specification.IsPaginate)
+            {
+                query = query.Skip(specification.Skip).Take(specification.Take);
             }
 
             return query;

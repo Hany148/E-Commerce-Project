@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
+using Shared;
 using Shared.DTO;
+using Shared.ErrorModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,9 +26,9 @@ namespace Presentation.Controller
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAllProduct(string? sort, int? brandid, int? typeid)
+        public async Task<ActionResult<PageinationResult<ProductDTO>>> GetAllProduct([FromQuery]ProductSpecificationParameter Prams)
         {
-            var products = await _serviceManger.Product.GetProductsDTOAsync(sort ,  brandid ,  typeid);
+            var products = await _serviceManger.Product.GetProductsDTOAsync(Prams);
             return Ok(products);
         }
 
@@ -43,6 +46,9 @@ namespace Presentation.Controller
             return Ok(productsType);
         }
 
+
+        [ProducesResponseType(typeof(ErrorDetails), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), (int)HttpStatusCode.InternalServerError)]
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductDTO>> GetProductById(int id)
         {
