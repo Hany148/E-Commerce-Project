@@ -18,7 +18,7 @@ namespace Domain.Entities
         public string Category { get; set; }
         public string Brand { get; set; }
 
-        public int Quntity { get; set; }
+        public int Quntity { get; set; } // دة تحديدا product عايز كام قطعه من ال 
 
     }
 }

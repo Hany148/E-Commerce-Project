@@ -26,7 +26,7 @@ namespace Persistence.Repositories
 
         public void Delete(Tentity entity)
         {
-            _dbSet.Remove(entity);
+              _dbSet.Remove(entity);
         }
 
         public async Task<Tentity?> FindByIdAysnc(Tkey id)

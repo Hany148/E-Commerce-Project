@@ -8,7 +8,7 @@ namespace Domain.Entities
 {
     public class CustomerBasket
     {
-        public int Id { get; set; } // pramiry kay
+        public string Id { get; set; } // pramiry kay
 
         public IEnumerable<BasketItem> BasketItems { get; set; } = Enumerable.Empty<BasketItem>();
     }

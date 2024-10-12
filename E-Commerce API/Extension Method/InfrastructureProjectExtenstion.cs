@@ -3,6 +3,7 @@ using Services;
 using Domain.Contracts.ISeeding;
 using Domain.Contracts.IUnitOfWork;
 using Persistence.Repositories;
+using StackExchange.Redis;
 
 namespace E_Commerce_API.Extension_Method
 {
@@ -20,6 +21,14 @@ namespace E_Commerce_API.Extension_Method
 
             // add services IUnitOfWork
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            // add services IConnectionMultiplexer
+            services.AddSingleton<IConnectionMultiplexer>(
+                 
+                     // service=> ConnectionMultiplexer.Connect(configuration.GetConnectionString("Redis")!)
+                      _=> ConnectionMultiplexer.Connect(configuration.GetConnectionString("Redis")!)
+                );
+
 
             return services;
         }
