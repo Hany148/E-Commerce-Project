@@ -1,5 +1,7 @@
 ﻿using Services.Abstractions;
 using Services;
+using Domain.Contracts___Interface__;
+using Persistence.Repositories;
 
 namespace E_Commerce_API.Extension_Method
 {
@@ -12,6 +14,10 @@ namespace E_Commerce_API.Extension_Method
 
             // add services AddAutoMapper
             services.AddAutoMapper(typeof(Services.ServicesRef).Assembly);
+
+
+            // add services IBasketRepository
+            services.AddScoped<IBasketRepository, BasketRepository>();
 
             return services;
         }
