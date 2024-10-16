@@ -5,6 +5,8 @@ using Domain.Contracts.IUnitOfWork;
 using Persistence.Repositories;
 using StackExchange.Redis;
 using Persistence.Identity_DbContext;
+using Domain.Idntity_Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace E_Commerce_API.Extension_Method
 {
@@ -35,8 +37,30 @@ namespace E_Commerce_API.Extension_Method
                       _=> ConnectionMultiplexer.Connect(configuration.GetConnectionString("Redis")!)
                 );
 
+            services.ConfigureIdentityServises();
 
             return services;
         }
+    
+       public static IServiceCollection ConfigureIdentityServises (this IServiceCollection services)
+        {
+
+            services.AddIdentity<User, IdentityRole>
+                (
+                     option =>
+                     {
+                         option.Password.RequireNonAlphanumeric = false;
+                         option.Password.RequireDigit = false;
+                         option.Password.RequireLowercase = false;
+                         option.Password.RequireUppercase = false;
+                         option.Password.RequiredLength = 10;
+                         option.User.RequireUniqueEmail = true; // defualt value is false
+                     }
+
+                ).AddEntityFrameworkStores<StoreIdentityDbContext>();
+
+            return services;
+        }
+
     }
 }

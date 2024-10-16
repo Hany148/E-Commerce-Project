@@ -9,5 +9,6 @@ namespace Domain.Contracts.ISeeding
     public interface IDbinitializer
     {
         public Task InitializAsync();
+        public Task InitializIdentityAsync();
     }
 }
