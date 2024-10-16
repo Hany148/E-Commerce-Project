@@ -16,7 +16,7 @@ namespace E_Commerce_API.Extension_Method
         {
             // Add Connection String for StoreContext
             services.AddDbContext<StoreContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("StoreContexConnection"))
+            options.UseSqlServer(configuration.GetConnectionString("StoreContextConnection"))
             );
 
             // Add Connection String for StoreIdentityDbContext

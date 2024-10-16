@@ -7,9 +7,9 @@ namespace E_Commerce_API.Middlewares
     public class GlobalErrorHandlingMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ILogger _logger;
+        private readonly ILogger<GlobalErrorHandlingMiddleware> _logger;
 
-        public GlobalErrorHandlingMiddleware(ILogger logger, RequestDelegate next)
+        public GlobalErrorHandlingMiddleware(ILogger<GlobalErrorHandlingMiddleware> logger, RequestDelegate next)
         {
             _logger = logger;
             _next = next;

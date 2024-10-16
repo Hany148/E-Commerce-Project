@@ -40,7 +40,7 @@ namespace E_Commerce_API
             builder.Services.InfrastructureProjectServises(builder.Configuration);
 
 
-
+            builder.Logging.AddConsole();
 
 
             #region Chain more than Services
