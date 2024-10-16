@@ -13,10 +13,8 @@ using System.Threading.Tasks;
 
 namespace Presentation.Controller
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    // [Authorize]
-    public class ProductsController : ControllerBase
+  
+    public class ProductsController : APIController
     {
 
         private readonly IServiceManger _serviceManger;
@@ -51,9 +49,7 @@ namespace Presentation.Controller
         }
 
 
-        [ProducesResponseType(typeof(ErrorDetails), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(ErrorDetails), (int)HttpStatusCode.InternalServerError)]
-        [ProducesResponseType(typeof(ValidationError), (int)HttpStatusCode.BadRequest)]
+
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductDTO>> GetProductById(int id)
         {

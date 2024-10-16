@@ -16,12 +16,10 @@ namespace Services
     public class AuthenticationServices : IAuthenticationServices
     {
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AuthenticationServices(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public AuthenticationServices(UserManager<User> userManager) 
         {
             _userManager = userManager;
-            _roleManager = roleManager;
         }
 
         public async Task<UserResult> LoginAsnc(UserLoginDTO userDTO)
