@@ -11,12 +11,12 @@ namespace Persistence.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly StoreContex _storeContex;
+        private readonly StoreContext _storeContext;
         private readonly Dictionary<string, object> _repositry;
 
-        public UnitOfWork(StoreContex storeContex)
+        public UnitOfWork(StoreContext storeContext)
         {
-            _storeContex = storeContex;
+            _storeContext = storeContext;
             _repositry = new();
         }
 
@@ -29,7 +29,7 @@ namespace Persistence.Repositories
                 return (IGenericRepository<Tenity, Tkey>) _repositry[TypeName];
             }
 
-            var repo = new GenericRepository<Tenity, Tkey>(_storeContex);
+            var repo = new GenericRepository<Tenity, Tkey>(_storeContext);
 
             _repositry[TypeName] = repo;
 
@@ -38,7 +38,7 @@ namespace Persistence.Repositories
 
         public async Task<int> ToSaveChanges()
         {
-           return await _storeContex.SaveChangesAsync();
+           return await _storeContext.SaveChangesAsync();
         }
     }
 }

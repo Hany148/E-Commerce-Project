@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace presentence.Data.DbContexts
 {
-    public class StoreContex : DbContext
+    public class StoreContext : DbContext
     {
-        public StoreContex(DbContextOptions<StoreContex> options):base(options) { }
+        public StoreContext(DbContextOptions<StoreContext> options):base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(StoreContex).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(StoreContext).Assembly);
         }
         public DbSet<Product> products { get; set; }
         public DbSet<ProductBrand> productBrands { get; set; }

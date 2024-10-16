@@ -11,9 +11,9 @@ namespace Persistence.Repositories
 {
     public class GenericRepository<Tentity, Tkey> : IGenericRepository<Tentity, Tkey> where Tentity : BaseEntity<Tkey>
     {
-        private readonly StoreContex _storeContex;
+        private readonly StoreContext _storeContex;
         private readonly DbSet<Tentity> _dbSet;
-        public GenericRepository(StoreContex storeContex)
+        public GenericRepository(StoreContext storeContex)
         {
             _storeContex = storeContex;
             _dbSet = _storeContex.Set<Tentity>();

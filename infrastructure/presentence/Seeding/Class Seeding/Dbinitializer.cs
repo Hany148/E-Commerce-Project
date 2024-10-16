@@ -13,11 +13,11 @@ namespace Persistence.Seeding.Class_Seeding
 {
     public class Dbinitializer : IDbinitializer
     {
-        private readonly StoreContex _storeContex;
+        private readonly StoreContext _storeContext;
 
-        public Dbinitializer(StoreContex storeContex)
+        public Dbinitializer(StoreContext storeContext)
         {
-            _storeContex = storeContex;
+            _storeContext = storeContext;
         }
 
         public async Task InitializAsync()
@@ -29,11 +29,11 @@ namespace Persistence.Seeding.Class_Seeding
 
             // create database if it doesn`t Exist And apply any pending migration ( updata database يعني هيتعمل )
 
-                if (_storeContex.Database.GetPendingMigrations().Any())
+                if (_storeContext.Database.GetPendingMigrations().Any())
                 {
-                    await _storeContex.Database.MigrateAsync();
+                    await _storeContext.Database.MigrateAsync();
                 }
-                if (!_storeContex.productTypes.Any()) // _storeContex.productTypes.Count() > 0
+                if (!_storeContext.productTypes.Any()) // _storeContex.productTypes.Count() > 0
                 {
                     // 1. read date from file ( this data is string )
                     // 2. convert string data to productTypes ( transform into c# object )
@@ -53,13 +53,13 @@ namespace Persistence.Seeding.Class_Seeding
 
                     if (ListOfProductTypes is not null && ListOfProductTypes.Any())
                     {
-                        await _storeContex.productTypes.AddRangeAsync(ListOfProductTypes);
-                        await _storeContex.SaveChangesAsync();
+                        await _storeContext.productTypes.AddRangeAsync(ListOfProductTypes);
+                        await _storeContext.SaveChangesAsync();
                     }
 
                 }
 
-                if (!_storeContex.productBrands.Any())
+                if (!_storeContext.productBrands.Any())
                 {
                     var BrandsString = await File.ReadAllTextAsync(@"..\infrastructure\presentence\Seeding\Data Seeding\brands.json");
 
@@ -67,19 +67,19 @@ namespace Persistence.Seeding.Class_Seeding
 
                     if (ListOfBrands is not null && ListOfBrands.Any())
                     {
-                        await _storeContex.productBrands.AddRangeAsync(ListOfBrands);
-                        await _storeContex.SaveChangesAsync();
+                        await _storeContext.productBrands.AddRangeAsync(ListOfBrands);
+                        await _storeContext.SaveChangesAsync();
                     }
                 }
 
-                if (!_storeContex.products.Any())
+                if (!_storeContext.products.Any())
                 {
                     var ProductsString = await File.ReadAllTextAsync(@"..\infrastructure\presentence\Seeding\Data Seeding\products.json");
                     var ListOfProducts = JsonSerializer.Deserialize<List<Product>>(ProductsString);
                     if (ListOfProducts is not null && ListOfProducts.Any())
                     {
-                        await _storeContex.products.AddRangeAsync(ListOfProducts);
-                        await _storeContex.SaveChangesAsync();
+                        await _storeContext.products.AddRangeAsync(ListOfProducts);
+                        await _storeContext.SaveChangesAsync();
                     }
 
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
 using Shared;
 using Shared.DTO;
@@ -14,6 +15,7 @@ namespace Presentation.Controller
 {
     [ApiController]
     [Route("api/[controller]")]
+    // [Authorize]
     public class ProductsController : ControllerBase
     {
 
@@ -25,7 +27,9 @@ namespace Presentation.Controller
         }
 
 
+        // [Authorize (Roles = "Admin")]
         [HttpGet]
+     
         public async Task<ActionResult<PageinationResult<ProductDTO>>> GetAllProduct([FromQuery]ProductSpecificationParameter Prams)
         {
             var products = await _serviceManger.Product.GetProductsDTOAsync(Prams);
