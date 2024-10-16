@@ -14,16 +14,24 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Services
 {
     public class AuthenticationServices : IAuthenticationServices
     {
         private readonly UserManager<User> _userManager;
+        private readonly IConfiguration _configuration;
+        private readonly IOptions<JWTOptions> _options;
 
-        public AuthenticationServices(UserManager<User> userManager)
+        public AuthenticationServices(UserManager<User> userManager , 
+            IConfiguration configuration
+            , IOptions<JWTOptions> options)
         {
             _userManager = userManager;
+            _configuration = configuration;
+            _options = options;
         }
 
         public async Task<UserResult> LoginAsnc(UserLoginDTO userDTO)
@@ -89,6 +97,9 @@ namespace Services
 
         private async Task<string> CreateTokenAsync(User user)
         {
+
+            var jwTOptions = _options.Value;
+
             // 1. create private clamis
 
             var AuthClamis = new List<Claim>
@@ -110,7 +121,10 @@ namespace Services
 
             // 3. create key
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("KdFFoKdhuQnsdP3ptptaNpMUkgnJouVX1wzMQQbRbyw="));
+            //  var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTOptions:SecretKey"]!));
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwTOptions.SecretKey));
+
 
             // 4. create signingCredentials
 
@@ -121,9 +135,9 @@ namespace Services
 
             var Token = new JwtSecurityToken(
 
-                audience: "MyAudience",
-                issuer: "https://localhost:7183",
-                expires: DateTime.UtcNow.AddDays(10),
+                audience: jwTOptions.Audience,
+                issuer: jwTOptions.Issuer,
+                expires: DateTime.UtcNow.AddDays(jwTOptions.DurationInDays),
                 claims: AuthClamis,
                 signingCredentials: signingCredential
 

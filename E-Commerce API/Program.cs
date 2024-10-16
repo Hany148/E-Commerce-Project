@@ -33,13 +33,16 @@ namespace E_Commerce_API
 
             // add CoreProjectServises
 
-            builder.Services.CoreProjectServises();
+            builder.Services.CoreProjectServises(builder.Configuration);
 
             // add InfrastructureProjectServises
 
             builder.Services.InfrastructureProjectServises(builder.Configuration);
 
 
+         
+
+            // Put  Logger in Console
             builder.Logging.AddConsole();
 
 
@@ -76,6 +79,8 @@ namespace E_Commerce_API
             app.UseStaticFiles();
 
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
