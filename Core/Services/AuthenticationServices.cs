@@ -22,15 +22,15 @@ namespace Services
     public class AuthenticationServices : IAuthenticationServices
     {
         private readonly UserManager<User> _userManager;
-        private readonly IConfiguration _configuration;
+       /* private readonly IConfiguration _configuration;*/
         private readonly IOptions<JWTOptions> _options;
 
-        public AuthenticationServices(UserManager<User> userManager , 
-            IConfiguration configuration
+        public AuthenticationServices(UserManager<User> userManager
+            /* , IConfiguration configuration */
             , IOptions<JWTOptions> options)
         {
             _userManager = userManager;
-            _configuration = configuration;
+           /* _configuration = configuration;*/
             _options = options;
         }
 
