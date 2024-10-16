@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions
 {
-    public class UnAuthenticationException : Exception
+    public class AuthenticationException : Exception
     {
-        public UnAuthenticationException(string Massage = "Invalid Email or Password") :base(Massage) { }
+        public AuthenticationException(string Massage = "Invalid Email or Password") :base(Massage) { }
 
        
     }
