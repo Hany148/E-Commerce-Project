@@ -10,7 +10,7 @@ using presentence.Data.DbContexts;
 
 namespace Persistence.Migrations
 {
-    [DbContext(typeof(StoreContex))]
+    [DbContext(typeof(StoreContext))]
     [Migration("20240928175008_InitCreate")]
     partial class InitCreate
     {

@@ -13,6 +13,9 @@ namespace E_Commerce_API.Extension_Method
             var Dbinitializer = scope.ServiceProvider.GetRequiredService<IDbinitializer>();
 
             await Dbinitializer.InitializAsync();
+            await Dbinitializer.InitializIdentityAsync();
+
+
             return app;
         }
 

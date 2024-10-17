@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 
 namespace Presentation.Controller
 {
-    [ApiController]
-    [Route("Api[Controller]")]
+   
     public class BasketController (IServiceManger serviceManger) : ControllerBase
     {
 

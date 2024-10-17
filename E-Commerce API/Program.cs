@@ -33,14 +33,17 @@ namespace E_Commerce_API
 
             // add CoreProjectServises
 
-            builder.Services.CoreProjectServises();
+            builder.Services.CoreProjectServises(builder.Configuration);
 
             // add InfrastructureProjectServises
 
             builder.Services.InfrastructureProjectServises(builder.Configuration);
 
 
+         
 
+            // Put  Logger in Console
+            builder.Logging.AddConsole();
 
 
             #region Chain more than Services
@@ -77,6 +80,8 @@ namespace E_Commerce_API
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
 
@@ -96,3 +101,4 @@ namespace E_Commerce_API
        
     }
 }
+

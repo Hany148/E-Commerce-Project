@@ -7,9 +7,9 @@ namespace E_Commerce_API.Middlewares
     public class GlobalErrorHandlingMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ILogger _logger;
+        private readonly ILogger<GlobalErrorHandlingMiddleware> _logger;
 
-        public GlobalErrorHandlingMiddleware(ILogger logger, RequestDelegate next)
+        public GlobalErrorHandlingMiddleware(ILogger<GlobalErrorHandlingMiddleware> logger, RequestDelegate next)
         {
             _logger = logger;
             _next = next;
@@ -39,35 +39,38 @@ namespace E_Commerce_API.Middlewares
 
         private async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
         {
-            // set status code of response to 500
+            // 1. set status code of response to 500
             httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            // set content type of response to Application/json
+            // 2. set content type of response to Application/json
             httpContext.Response.ContentType = "application/json";
 
+            // 3. create standard response => return object of ErrorDetails as json
+            var resonse = new ErrorDetails()
+            {
+                ErrorMessage = exception.Message,
 
+            };
+
+            // 4. change status code
             httpContext.Response.StatusCode = exception switch
             {
                 NotFoundException => (int)HttpStatusCode.NotFound,
+                AuthenticationException => (int)HttpStatusCode.Unauthorized,
+                ValidationErrorsExpception errorsExpception => HandileValidationErrorsExpception(errorsExpception, resonse),
                 _ => (int)HttpStatusCode.InternalServerError
             };
 
+            resonse.StatusCode = httpContext.Response.StatusCode;
 
-            // retun standard response => return object of ErrorDetails as json
-
-            var resonse = new ErrorDetails()
-            {
-                StatusCode = httpContext.Response.StatusCode,
-                ErrorMessage = exception.Message
-            }.ToString();
+            // 5. return standard response => return object of ErrorDetails as json
 
 
-
-            await httpContext.Response.WriteAsync(resonse);
+            await httpContext.Response.WriteAsync(resonse.ToString());
 
         }
 
-
+        
 
         private async Task HandleNotFountPointAsync(HttpContext httpContext)
         {
@@ -82,6 +85,12 @@ namespace E_Commerce_API.Middlewares
 
             await httpContext.Response.WriteAsync(Response);
 
+        }
+
+        private int HandileValidationErrorsExpception(ValidationErrorsExpception errorsExpception, ErrorDetails resonse)
+        {
+            resonse.Errors = errorsExpception.Errors;
+            return (int)HttpStatusCode.BadRequest;
         }
 
     }

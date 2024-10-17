@@ -3,6 +3,7 @@ using Domain.Contracts.IUnitOfWork;
 using E_Commerce_API.Middlewares;
 using E_Commerce_API.Response_Factory;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
 using Persistence.Repositories;
 
 namespace E_Commerce_API.Extension_Method
@@ -16,9 +17,9 @@ namespace E_Commerce_API.Extension_Method
 
             services.AddControllers().AddApplicationPart(typeof(Presentation.PresentationRef).Assembly);
 
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.SwaggerServices();
 
 
             // custum configuration
@@ -36,8 +37,54 @@ namespace E_Commerce_API.Extension_Method
         }
 
 
+        public static IServiceCollection SwaggerServices(this IServiceCollection services)
+        {
 
-       
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen(
+                       option =>
+                       {
+                           option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                           {
+                               In = ParameterLocation.Header,
+                               Description = "Please Enter Bearer Token",
+                               Name = "Authorization",
+                               Type = SecuritySchemeType.Http,
+                               Scheme = "Bearer",
+                               BearerFormat = "JWT"
+
+                           });
+
+
+                           option.AddSecurityRequirement(new OpenApiSecurityRequirement
+                           {
+                               {
+                                   new OpenApiSecurityScheme
+                                   {
+                                       Reference = new OpenApiReference
+                                       {
+                                           Type = ReferenceType.SecurityScheme,
+                                           Id = "Bearer"
+                                       }
+                                   },
+                                   new List<string>() {}
+                               }
+                           }
+
+                           );
+
+
+
+                       }
+
+            );
+
+            return services;
+        }
+
+
+
 
     }
 
