@@ -17,6 +17,7 @@ namespace Services.Abstractions
         // Register
         public Task<UserResult> RegisterAsync(UserRegisterDTO userRegisterDTO);
 
+
         // get current user by email
 
         public Task<UserResult> GetUserByEmail(string email);
@@ -27,7 +28,7 @@ namespace Services.Abstractions
 
         // get Address of user by email
 
-        public Task<AddressDTO> AddressUserByEmail(string email);
+        public Task<AddressDTO> GetAddressUserByEmail(string email);
 
         // update address of user 
 

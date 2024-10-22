@@ -26,6 +26,7 @@ namespace Services
             IMapper _map
             , UserManager<User> userManger 
             , IOptions<JWTOptions> options )
+
         {
             _productService = new Lazy<IProductService>(() => new ProductService(unitOfWork , _map));
             _IBasketService = new Lazy<IBasketService>(() => new BasketService(basketRepository, _map));

@@ -173,9 +173,10 @@ namespace Services
             return user is not null;
         }
 
+
         // get Address of user by email
 
-        public async Task<AddressDTO> AddressUserByEmail(string email)
+        public async Task<AddressDTO> GetAddressUserByEmail(string email)
         {
             var user = await _userManager.Users.Include(u => u.Address).FirstOrDefaultAsync(u => u.Email == email);
             if (user is null)
@@ -200,21 +201,32 @@ namespace Services
 
         public async Task<AddressDTO> UpdateAddressUserByEmail(AddressDTO addressDTO, string email)
         {
-            var user = await _userManager.Users.Include(u => u.Address).FirstOrDefaultAsync(u => u.Email == email);
-            if (user is null)
+            var user = await _userManager.Users.Include(u => u.Address).FirstOrDefaultAsync(u => u.Email == email)
+                ?? throw new AuthenticationException($"this User is not found");
+
+
+            if (user.Address is not null)
             {
-                throw new AuthenticationException($"this User is not found");
+                user.Address.FirstName = addressDTO.FirstName;
+                user.Address.LastName = addressDTO.LastName;
+                user.Address.Street = addressDTO.Street;
+                user.Address.City = addressDTO.City;
+                user.Address.Country = addressDTO.Country;
             }
+            else
+            {
+                var address = new Address()
+                {
+                    FirstName = addressDTO.FirstName,
+                    LastName = addressDTO.LastName,
+                    Street = addressDTO.Street,
+                    City = addressDTO.City,
+                    Country = addressDTO.Country
 
+                };
 
-
-            user.Address.FirstName = addressDTO.FirstName;
-            user.Address.LastName = addressDTO.LastName;
-            user.Address.Street = addressDTO.Street;
-            user.Address.City = addressDTO.City;
-            user.Address.Country = addressDTO.Country;
-
-
+                user.Address = address;
+            }
 
             await _userManager.UpdateAsync(user);
 
