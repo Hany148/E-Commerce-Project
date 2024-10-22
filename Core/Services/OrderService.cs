@@ -79,7 +79,7 @@ namespace Services
         public async Task<IEnumerable<OrderDTO>> GetAllOrdersOfUserAsync(string Email)
         {
 
-            var delivaryMethod = await unitOfWork.GetRepository<Order, Guid>().FindByIdAysnc(new OrderSpecification(Email))
+            var delivaryMethod = await unitOfWork.GetRepository<Order, Guid>().GetAllAsync(new OrderSpecification(Email))
                 ?? throw new OrderNotFoundException(Email);
             return mapper.Map<IEnumerable<OrderDTO>>(delivaryMethod);
         }

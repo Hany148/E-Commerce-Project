@@ -16,13 +16,14 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
 
 namespace Services
 {
     public class AuthenticationServices : IAuthenticationServices
     {
         private readonly UserManager<User> _userManager;
-       /* private readonly IConfiguration _configuration;*/
+        /* private readonly IConfiguration _configuration;*/
         private readonly IOptions<JWTOptions> _options;
 
         public AuthenticationServices(UserManager<User> userManager
@@ -30,7 +31,7 @@ namespace Services
             , IOptions<JWTOptions> options)
         {
             _userManager = userManager;
-           /* _configuration = configuration;*/
+            /* _configuration = configuration;*/
             _options = options;
         }
 
@@ -107,7 +108,6 @@ namespace Services
                 new Claim(ClaimTypes.Name, user.UserName!),
                 new Claim(ClaimTypes.Name, user.Email!),
 
-
             };
 
             // 2. add roles to my private clamis
@@ -147,6 +147,79 @@ namespace Services
             //  5. create Token and convert it to string
 
             return new JwtSecurityTokenHandler().WriteToken(Token);
+
+        }
+
+
+        // get current user by email
+
+        public async Task<UserResult> GetUserByEmail(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email)
+                ?? throw new AuthenticationException($"this User is not found"); ;
+
+            var Token = await CreateTokenAsync(user);
+
+            return new UserResult(user.DisplayName, user.Email!, Token);
+
+        }
+
+        // check if email is exist
+
+        public async Task<bool> CheckUserByEmail(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            return user is not null;
+        }
+
+        // get Address of user by email
+
+        public async Task<AddressDTO> AddressUserByEmail(string email)
+        {
+            var user = await _userManager.Users.Include(u => u.Address).FirstOrDefaultAsync(u => u.Email == email);
+            if (user is null)
+            {
+                throw new AuthenticationException($"this User is not found");
+            }
+            var address = user.Address;
+
+            return new AddressDTO()
+            {
+                City = address.City,
+                Country = address.Country,
+                FirstName = address.FirstName,
+                LastName = address.LastName,
+                Street = address.Street
+            };
+
+
+        }
+
+        // update address of user by email
+
+        public async Task<AddressDTO> UpdateAddressUserByEmail(AddressDTO addressDTO, string email)
+        {
+            var user = await _userManager.Users.Include(u => u.Address).FirstOrDefaultAsync(u => u.Email == email);
+            if (user is null)
+            {
+                throw new AuthenticationException($"this User is not found");
+            }
+
+
+
+            user.Address.FirstName = addressDTO.FirstName;
+            user.Address.LastName = addressDTO.LastName;
+            user.Address.Street = addressDTO.Street;
+            user.Address.City = addressDTO.City;
+            user.Address.Country = addressDTO.Country;
+
+
+
+            await _userManager.UpdateAsync(user);
+
+            return addressDTO;
+
 
         }
 
