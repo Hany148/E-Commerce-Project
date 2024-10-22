@@ -3,19 +3,8 @@ global using Domain.Contracts;
 global using Microsoft.EntityFrameworkCore;
 global using Persistence.Seeding.Class_Seeding;
 global using presentence.Data.DbContexts;
-using Domain.Contracts.ISeeding;
-using Presentation;
-using Services.Abstractions;
-using Services;
-using Domain.Contracts.IUnitOfWork;
-using Persistence.Repositories;
-using Microsoft.Extensions.FileProviders;
-using System;
-using E_Commerce_API.Middlewares;
-using Microsoft.AspNetCore.Mvc;
-using E_Commerce_API.Response_Factory;
-using Microsoft.Extensions.Configuration;
-using E_Commerce_API.Extension_Method;
+global using Domain.Contracts.ISeeding;
+
 
 namespace E_Commerce_API
 {
@@ -24,7 +13,6 @@ namespace E_Commerce_API
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
 
             // add PresentaionExtexntionServises
 
