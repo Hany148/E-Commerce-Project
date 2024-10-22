@@ -12,7 +12,7 @@ namespace Domain.Contracts.IRepository
     {
         public Task<Tentity?> FindByIdAysnc(Tkey id);
 
-        public Task<IEnumerable<Tentity>> GetAllAsync(bool trackChenges);
+        public Task<IEnumerable<Tentity>> GetAllAsync(bool trackChenges = true);
 
         public Task<Tentity?> FindByIdAysnc(Specification<Tentity> specification);
 

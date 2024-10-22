@@ -13,11 +13,11 @@ namespace Services.Abstractions
 
         // retrieve get order by id 
 
-        public Task<OrderDTO> GetOrderAsync();
+        public Task<OrderDTO> GetOrderAsync(Guid id);
 
         // get orders for user by email 
 
-        public Task<IEnumerable<OrderDTO>> GetAllOrderAsync(string Email);
+        public Task<IEnumerable<OrderDTO>> GetAllOrdersOfUserAsync(string Email);
 
         // create order 
 
@@ -25,7 +25,7 @@ namespace Services.Abstractions
 
         // get all Delivery Method
 
-        public Task<DeliveryMethodDTO> GetAllDeliveryMethodAsync();
+        public Task<IEnumerable<DeliveryMethodDTO>> GetAllDeliveryMethodAsync();
 
     }
 }

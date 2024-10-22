@@ -5,6 +5,7 @@ using Domain.Entities.OrderEntites;
 using Domain.Exceptions;
 using Persistence.Exceptions;
 using Services.Abstractions;
+using Services.Specification;
 using Shared;
 using System;
 using System.Collections.Generic;
@@ -68,19 +69,23 @@ namespace Services
         }
 
 
-        public Task<DeliveryMethodDTO> GetAllDeliveryMethodAsync()
+        public async Task<IEnumerable<DeliveryMethodDTO>> GetAllDeliveryMethodAsync()
         {
-            throw new NotImplementedException();
+            var delivaryMethod = await unitOfWork.GetRepository<DeliveryMethod, int>().GetAllAsync();
+            return mapper.Map<IEnumerable<DeliveryMethodDTO>>(delivaryMethod);
         }
 
-        public Task<IEnumerable<OrderDTO>> GetAllOrderAsync(string Email)
+        public async Task<IEnumerable<OrderDTO>> GetAllOrdersOfUserAsync(string Email)
         {
-            throw new NotImplementedException();
+
+            var delivaryMethod = await unitOfWork.GetRepository<Order, Guid>().FindByIdAysnc(new OrderSpecification(Email));
+            return mapper.Map<IEnumerable<OrderDTO>>(delivaryMethod);
         }
 
-        public Task<OrderDTO> GetOrderAsync()
+        public async Task<OrderDTO> GetOrderAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var Order = await unitOfWork.GetRepository<Order, Guid>().FindByIdAysnc(new OrderSpecification(id));
+            return mapper.Map<OrderDTO>(Order);
         }
     }
 }
