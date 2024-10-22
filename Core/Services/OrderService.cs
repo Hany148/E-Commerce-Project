@@ -3,6 +3,7 @@ using Domain.Contracts___Interface__;
 using Domain.Entities;
 using Domain.Entities.OrderEntites;
 using Domain.Exceptions;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Persistence.Exceptions;
 using Services.Abstractions;
 using Services.Specification;
@@ -78,13 +79,15 @@ namespace Services
         public async Task<IEnumerable<OrderDTO>> GetAllOrdersOfUserAsync(string Email)
         {
 
-            var delivaryMethod = await unitOfWork.GetRepository<Order, Guid>().FindByIdAysnc(new OrderSpecification(Email));
+            var delivaryMethod = await unitOfWork.GetRepository<Order, Guid>().FindByIdAysnc(new OrderSpecification(Email))
+                ?? throw new OrderNotFoundException(Email);
             return mapper.Map<IEnumerable<OrderDTO>>(delivaryMethod);
         }
 
         public async Task<OrderDTO> GetOrderAsync(Guid id)
         {
-            var Order = await unitOfWork.GetRepository<Order, Guid>().FindByIdAysnc(new OrderSpecification(id));
+            var Order = await unitOfWork.GetRepository<Order, Guid>().FindByIdAysnc(new OrderSpecification(id))
+                ?? throw new OrderNotFoundException(id);
             return mapper.Map<OrderDTO>(Order);
         }
     }
