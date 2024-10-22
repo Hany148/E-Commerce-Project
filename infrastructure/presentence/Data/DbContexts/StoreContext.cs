@@ -1,5 +1,6 @@
 ﻿global using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
+using Domain.Entities.OrderEntites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,5 +22,8 @@ namespace presentence.Data.DbContexts
         public DbSet<Product> products { get; set; }
         public DbSet<ProductBrand> productBrands { get; set; }
         public DbSet<ProductType> productTypes { get; set; }
+        public DbSet<OrderEntity> orders { get; set; }
+        public DbSet<OrderItem> orderItems { get; set; }
+        public DbSet<DeliveryMethod> deliveryMethods { get; set; }
     }
 }

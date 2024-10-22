@@ -9,6 +9,25 @@ namespace Domain.Entities.OrderEntites
 {
     public class Order : BaseEntity<Guid>
     {
+
+        public Order() {  }
+
+        public Order(
+
+            string userEmail,
+            Address shippingAdress,
+            ICollection<OrderItem> orderItems,
+            DeliveryMethod deliveryMethod,  
+            decimal subTotal          
+            )
+        {
+            UserEmail = userEmail;
+            ShippingAdress = shippingAdress;
+            OrderItems = orderItems;
+            DeliveryMethod = deliveryMethod;
+            SubTotal = subTotal;
+        }
+
         // User Email 
         public string UserEmail { get; set; }
 
@@ -20,16 +39,16 @@ namespace Domain.Entities.OrderEntites
         public ICollection<OrderItem> OrderItems { get; set; } // collection navigational property
 
         // Payment status ( Pendding , received , failed )
-        public OrderPaymentStatus paymentStatus { get; set; }
+        public OrderPaymentStatus paymentStatus { get; set; } = OrderPaymentStatus.Pending;
 
         // payment intent
 
-        public string PaymentIntentId { get; set; } = string.Empty; 
+        public string PaymentIntentId { get; set; } = string.Empty;
 
         // طرق التوصيل (DeliveryMethod)
 
         public DeliveryMethod DeliveryMethod { get; set; } // ref navigational property
-        public int? DeliveryMethodId { get; set; } // ref navigational property
+        public int? DeliveryMethodId { get; set; } // Forign Key
 
         // SubTotal = items of Quntity * price 
 

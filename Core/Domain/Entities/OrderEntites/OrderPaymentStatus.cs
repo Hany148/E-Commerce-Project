@@ -8,7 +8,7 @@ namespace Domain.Entities.OrderEntites
 {
     public enum OrderPaymentStatus
     {
-        Pendding = 1 ,
+        Pending = 1 ,
         PaymentRecevied = 2 , 
         PaymentFailed = 3 , 
 
