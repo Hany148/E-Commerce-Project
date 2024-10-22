@@ -28,7 +28,7 @@ namespace Domain.Entities.OrderEntites
             SubTotal = subTotal;
         }
 
-        // User Email 
+        // User Email => ( عادي product بيكون فيه اكتر من order عادي , وال order ممكن يعمل اكتر من User ال )
         public string UserEmail { get; set; }
 
         // user دة لل order العنوان اللي اتشحن علية ال
@@ -36,7 +36,7 @@ namespace Domain.Entities.OrderEntites
         public Address ShippingAdress { get; set; }
 
         // المنتجات (products)
-        public ICollection<OrderItem> OrderItems { get; set; } // collection navigational property
+        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>() ; // collection navigational property
 
         // Payment status ( Pendding , received , failed )
         public OrderPaymentStatus paymentStatus { get; set; } = OrderPaymentStatus.Pending;
