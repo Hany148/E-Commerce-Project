@@ -26,7 +26,7 @@ namespace Services
 
             return basket is  null ? throw new BasketNotFoundException(id):
                 mapper.Map<CustomerBasketDTO>(basket);
-                ;
+                
         }
 
         public async Task<CustomerBasketDTO?> UpdateBasketAsync(CustomerBasketDTO basket, TimeSpan? TTL = null)
