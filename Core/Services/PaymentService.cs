@@ -33,6 +33,13 @@ namespace Services
         public async Task<CustomerBasketDTO> CreateOrUpdatePaymentIntentAsync(string BasketId)
         {
 
+            #region Using Environment Variable
+
+             // var EnvironmentVariable = Environment.GetEnvironmentVariable("SecretKey");
+
+            #endregion
+
+
             // 1. set secret key ==> Stripe اللي علي business account دة كلمه السر بتاع ال secret key ال 
             StripeConfiguration.ApiKey = configuration.GetSection("StripeSettings")["SecretKey"];
 
