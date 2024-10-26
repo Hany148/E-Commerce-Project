@@ -10,5 +10,6 @@ namespace Services.Abstractions
     public interface IPaymentService
     {
         public Task<CustomerBasketDTO> CreateOrUpdatePaymentIntentAsync(string BasketId);
+        public Task UpdateOrderPaymentStatusAsync(string request , string stripeHeader);
     }
 }
