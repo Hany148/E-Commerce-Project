@@ -1,0 +1,12 @@
+﻿global using Presentation;
+global using Services.Abstractions;
+global using Services;
+global using Domain.Contracts.IUnitOfWork;
+global using Persistence.Repositories;
+global using Microsoft.Extensions.FileProviders;
+global using System;
+global using E_Commerce_API.Middlewares;
+global using Microsoft.AspNetCore.Mvc;
+global using E_Commerce_API.Response_Factory;
+global using Microsoft.Extensions.Configuration;
+global using E_Commerce_API.Extension_Method;

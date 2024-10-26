@@ -16,7 +16,8 @@ namespace Services.Mapping
         public PictureURLResolver(IConfiguration configuration)
         {
             _configuration = configuration;
-        } 
+        }
+
         public string Resolve(Product source, ProductDTO destination, string destMember, ResolutionContext context)
         {
             if (string.IsNullOrWhiteSpace(source.PictureUrl))
