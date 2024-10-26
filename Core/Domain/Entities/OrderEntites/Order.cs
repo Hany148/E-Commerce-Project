@@ -17,15 +17,16 @@ namespace Domain.Entities.OrderEntites
             string userEmail,
             Address shippingAdress,
             ICollection<OrderItem> orderItems,
-            DeliveryMethod deliveryMethod,  
-            decimal subTotal          
-            )
+            DeliveryMethod deliveryMethod,
+            decimal subTotal
+            int? deliveryMethodId)
         {
             UserEmail = userEmail;
             ShippingAdress = shippingAdress;
             OrderItems = orderItems;
             DeliveryMethod = deliveryMethod;
             SubTotal = subTotal;
+            DeliveryMethodId = deliveryMethodId;
         }
 
         // User Email => ( عادي product بيكون فيه اكتر من order عادي , وال order ممكن يعمل اكتر من User ال )
@@ -43,7 +44,7 @@ namespace Domain.Entities.OrderEntites
 
         // payment intent
 
-        public string PaymentIntentId { get; set; } = string.Empty;
+        public string PaymentIntentId { get; set; } 
 
         // طرق التوصيل (DeliveryMethod)
 
