@@ -22,7 +22,7 @@ namespace Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.Entities.OrderEntites.DeliveryMethod", b =>
+            modelBuilder.Entity("Domain.Entities.OrderEntites.DeliveryMethodId", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -180,7 +180,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.OrderEntites.Order", b =>
                 {
-                    b.HasOne("Domain.Entities.OrderEntites.DeliveryMethod", "DeliveryMethod")
+                    b.HasOne("Domain.Entities.OrderEntites.DeliveryMethodId", "DeliveryMethodId")
                         .WithMany()
                         .HasForeignKey("DeliveryMethodId")
                         .OnDelete(DeleteBehavior.SetNull);
@@ -218,7 +218,7 @@ namespace Persistence.Migrations
                                 .HasForeignKey("OrderId");
                         });
 
-                    b.Navigation("DeliveryMethod");
+                    b.Navigation("DeliveryMethodId");
 
                     b.Navigation("ShippingAdress")
                         .IsRequired();

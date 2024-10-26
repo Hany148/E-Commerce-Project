@@ -57,13 +57,13 @@ namespace Services
             // 5. get price of delivery method (shipping price)
 
 
-            if (!basket.DeliveryMethod.HasValue) // true = flase == false
+            if (!basket.DeliveryMethodId.HasValue) // true = flase == false
             {
                 throw new Exception("No delivery method is selected");
             }
 
-            var deliveryMethod = await DeliveryObject.FindByIdAysnc(basket.DeliveryMethod.Value)
-                ?? throw new DeliveryMethodNotFoundExceptions(basket.DeliveryMethod.Value);
+            var deliveryMethod = await DeliveryObject.FindByIdAysnc(basket.DeliveryMethodId.Value)
+                ?? throw new DeliveryMethodNotFoundExceptions(basket.DeliveryMethodId.Value);
 
             basket.ShippingPrice = deliveryMethod.Price;
 
