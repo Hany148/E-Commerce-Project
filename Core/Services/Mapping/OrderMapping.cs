@@ -24,7 +24,7 @@ namespace Services.Mapping
 ;
 
 
-            CreateMap<Address, AddressDTO>().ReverseMap();
+            CreateMap<DomainAddress, AddressDTO>().ReverseMap();
 
             CreateMap<OrderItem, OrderItemDTO>()
                 .ForMember(OID => OID.ProductId , option=> option.MapFrom(OI => OI.Product.ProductId))

@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿global using DomainAddress = Domain.Entities.OrderEntites.Address;
+using AutoMapper;
+using Domain.Contracts.IRepository;
 using Domain.Contracts___Interface__;
 using Domain.Entities;
 using Domain.Entities.OrderEntites;
@@ -16,14 +18,16 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public class OrderService (IMapper mapper , IUnitOfWork unitOfWork , IBasketRepository basketRepository)
+    public class OrderService(IMapper mapper, IUnitOfWork unitOfWork, IBasketRepository basketRepository)
         : IOrderService
     {
+
+        private readonly IGenericRepository<Order, Guid> OrderObject = unitOfWork.GetRepository<Order, Guid>();
 
         public async Task<OrderDTO> CreateOrderAsync(ParameterOfOrder parameterOfOrder, string UserEmail)
         {
             // 1. Address
-            var ShippingAdress = mapper.Map<Address>(parameterOfOrder.ShippingAdress);
+            var ShippingAdress = mapper.Map<DomainAddress>(parameterOfOrder.ShippingAdress);
 
             // 2. order items => basket => basket items => 
 
@@ -37,12 +41,12 @@ namespace Services
                 var product = await unitOfWork.GetRepository<Product, int>().FindByIdAysnc(item.Id)
                     ?? throw new ProductNotFoundExceptions(item.Id);
 
-                orderItems.Add(CreateOrderItem(item , product));
+                orderItems.Add(CreateOrderItem(item, product));
             }
 
             // 3. Delivary Method
             var delivaryMethod = await unitOfWork.GetRepository<DeliveryMethod, int>()
-                .FindByIdAysnc(parameterOfOrder.DeliveryMethodId) 
+                .FindByIdAysnc(parameterOfOrder.DeliveryMethodId)
                 ?? throw new DeliveryMethodNotFoundExceptions(parameterOfOrder.DeliveryMethodId);
 
             // 4. subTotal
@@ -50,12 +54,19 @@ namespace Services
 
             // 5. create order 
 
-            var order = new Order(UserEmail , ShippingAdress , orderItems , delivaryMethod , subTotal);
+            var orderExist = await OrderObject.FindByIdAysnc(new OrderWithSpecificationPaymentIntentId(basket.PaymentIntentId!));
+
+            if (orderExist is not null)
+            {
+                //  تانيه entity مع relation بتاعتي هي مستقلة بذاتها ولا داخله في entity  لازم ساعتها اسئل نفسي سؤال هل ال Delete لما استخدم ال
+                OrderObject.Delete(orderExist);
+            }
+
+            var order = new Order(UserEmail, ShippingAdress, orderItems, delivaryMethod, subTotal, basket.PaymentIntentId!);
 
             // 5. save to data base 
-            await unitOfWork.GetRepository<Order, Guid>()
-                .AddAsync(order);
-                
+            await OrderObject.AddAsync(order);
+
             await unitOfWork.ToSaveChanges();
 
             // 6. map to orderDto
@@ -66,7 +77,7 @@ namespace Services
 
         private OrderItem CreateOrderItem(BasketItem item, Product product)
         {
-            return new OrderItem(new ProdeuctInOrderItem(product.Id , product.Name , product.PictureUrl) , item.Quntity , product.Price) ;
+            return new OrderItem(new ProdeuctInOrderItem(product.Id, product.Name, product.PictureUrl), item.Quntity, product.Price);
         }
 
 

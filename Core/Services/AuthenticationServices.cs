@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
+global using IdntityAddress = Domain.Idntity_Entities.Address;
+using Microsoft.AspNetCore.Identity;
 using Services.Abstractions;
 using Shared;
 using Shared.Identity_DTO;
@@ -215,7 +217,7 @@ namespace Services
             }
             else
             {
-                var address = new Address()
+                var dmainAddress = new IdntityAddress()
                 {
                     FirstName = addressDTO.FirstName,
                     LastName = addressDTO.LastName,
@@ -225,7 +227,7 @@ namespace Services
 
                 };
 
-                user.Address = address;
+                user.Address = dmainAddress;
             }
 
             await _userManager.UpdateAsync(user);

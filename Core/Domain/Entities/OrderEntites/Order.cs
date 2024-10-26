@@ -18,15 +18,15 @@ namespace Domain.Entities.OrderEntites
             Address shippingAdress,
             ICollection<OrderItem> orderItems,
             DeliveryMethod deliveryMethod,
-            decimal subTotal
-            int? deliveryMethodId)
+            decimal subTotal,
+            string paymentIntentId)
         {
             UserEmail = userEmail;
             ShippingAdress = shippingAdress;
             OrderItems = orderItems;
             DeliveryMethod = deliveryMethod;
             SubTotal = subTotal;
-            DeliveryMethodId = deliveryMethodId;
+            PaymentIntentId = paymentIntentId;
         }
 
         // User Email => ( عادي product بيكون فيه اكتر من order عادي , وال order ممكن يعمل اكتر من User ال )

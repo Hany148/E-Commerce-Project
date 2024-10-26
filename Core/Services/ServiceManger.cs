@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿global using ProductService = Services.Abstractions.ProductService;
+using AutoMapper;
 using Domain.Contracts___Interface__;
 using Domain.Idntity_Entities;
 using Microsoft.AspNetCore.Identity;
