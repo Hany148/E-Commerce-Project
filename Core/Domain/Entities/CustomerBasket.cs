@@ -11,5 +11,12 @@ namespace Domain.Entities
         public string Id { get; set; } // pramiry kay
 
         public IEnumerable<BasketItem> BasketItems { get; set; } = Enumerable.Empty<BasketItem>();
+
+        public string? PaymentIntentId { get; set; }
+        public string? ClientSecret { get; set; }
+
+        public int? DeliveryMethodId { get; set; }
+
+        public decimal? ShippingPrice { get; set; }
     }
 }

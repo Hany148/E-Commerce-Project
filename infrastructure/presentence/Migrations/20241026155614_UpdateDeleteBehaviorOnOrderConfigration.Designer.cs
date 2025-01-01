@@ -12,8 +12,8 @@ using presentence.Data.DbContexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20241022072444_OrderModule")]
-    partial class OrderModule
+    [Migration("20241026155614_UpdateDeleteBehaviorOnOrderConfigration")]
+    partial class UpdateDeleteBehaviorOnOrderConfigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,7 +50,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("deliveryMethodssssss");
+                    b.ToTable("deliveryMethods");
                 });
 
             modelBuilder.Entity("Domain.Entities.OrderEntites.Order", b =>
@@ -231,7 +231,8 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.Entities.OrderEntites.Order", null)
                         .WithMany("OrderItems")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.OwnsOne("Domain.Entities.OrderEntites.ProdeuctInOrderItem", "Product", b1 =>
                         {

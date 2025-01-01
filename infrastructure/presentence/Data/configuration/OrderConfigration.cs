@@ -15,7 +15,8 @@ namespace Persistence.Data.configuration
             builder.OwnsOne(o => o.ShippingAdress, o => o.WithOwner());
 
             builder.HasMany(o => o.OrderItems)
-                .WithOne();
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(o => o.paymentStatus).HasConversion(
 

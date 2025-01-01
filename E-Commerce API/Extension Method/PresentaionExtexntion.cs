@@ -33,6 +33,24 @@ namespace E_Commerce_API.Extension_Method
 
             );
 
+            // AddCors
+
+            services.AddCors(option =>
+                    option.AddPolicy("CORSPolicy", bulider =>
+                    {
+
+                        bulider.AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowAnyOrigin(); // or => WithOrigins("http://localhost:4200")
+
+
+
+                    })
+
+            );
+
+           
+
             return services;
         }
 
